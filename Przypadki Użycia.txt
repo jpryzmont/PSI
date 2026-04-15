@@ -1,0 +1,227 @@
+I.
+Nazwa: Twórz zlecenie
+Aktorzy: Klient
+Krótki opis: Tworzenie nowego zlecenia transportu
+Warunki wstępne: brak
+Warunki końcowe: System tworzy zlecenie
+
+Główny przepływ zdarzeń: 
+1. Klient zgłasza zlecenie w systemie (uruchamia "zlecenie")
+2. System pozwala wypełnić
+3. Klient wypełnia formularz
+4. System sprawdza spójność
+5. Klient potwierdza operację tworzenia zlecenia
+6. System tworzy zlecenie
+
+Alternatywne przepływy danych:
+3a. Klient rezygnuje z wypełniania formularzu
+4a. System wyświetla komunikat o błędach w formularzu
+6a. System wysyła informacje o utworzonym zlecenia spedytorowi
+
+Specjalne wymagania:
+Notatki:
+
+II.
+Nazwa: Zarządzaj zleceniem
+Aktorzy: Klient, Spedytor
+Krótki opis: Zarządzanie zleceniem oraz realizowanie dalszego przebiegu
+Warunki wstępne: Istnieje zlecenie w systemie
+Warunki końcowe: Zmiana statusu zlecenia
+
+Główny przepływ zdarzeń: 
+1. Spedytor klika w chęć zarządzania zleceniem
+2. System wyświetla listę zleceń
+3. Spedytor wybiera z listy
+4. System przekierowuje do wybranego zlecenia
+5. Spedytor akceptuje zlecenie
+6. System zmienia status na "zaakceptowane"
+6. Spedytor wycenia zlecenie
+7. System przesyła wycenę do Klienta
+8. Klient akceptuje wycenę
+9. System zmienia status zlecenia na "w trakcie realizacji"
+
+Alternatywne przepływy danych:
+5a. Spedytor anuluje zlecenie a System przesyła informację do Klienta o tym 
+8a. Klient nie akceptuje wyceny
+
+Specjalne wymagania: 
+1. Spedytor ma ograniczony czas akceptacji zlecenia
+2. Spedytor ma ograniczony czas na wycenę zlecenia
+3. Klient ma ograniczony czas na akceptację wyceny
+Notatki:
+
+III.
+Nazwa: Usuń zlecenie
+Aktorzy: Klient
+Krótki opis: Usunięcie zlecenia
+Warunki wstępne: Istnienie zlecenia ze statusem "w trakcie realizacji"
+Warunki końcowe: Usunięcie zlecenia
+
+Główny przepływ zdarzeń: 
+1. Klient wybiera zlecenie
+2. System przekierowuje do zlecenia
+3. Klient wybiera usuń
+4. Czy na pewno???
+5. Klient potwierdza chęć usunięcia
+6. System potwierdza usunięcie i zmienia status na "zrealizowane"
+
+Alternatywne przepływy danych: 
+3a. Klient rezygnuje z usuwania zlecenia
+6a. System nakłada karę na dane zlecenie
+
+Specjalne wymagania: 
+Notatki: 
+
+IV.
+Nazwa: Opłać zlecenie
+Aktorzy: Klient
+Krótki opis: Opłacenie zrealizowanego zlecenie
+Warunki wstępne: zlecenie ma status "zrealizowane" oraz faktura jest wystawiona
+Warunki końcowe: opłacenie przez klienta faktury/zlecenia
+
+Główny przepływ zdarzeń:
+1. Klient wchodzi do zlecenia
+2. System przekierowuje do zlecenia
+3. Klient wybiera opłacenie
+4. System przekierowuje do płacenia
+5. Klient płaci
+6. System akceptuje zapłatę
+7. System zmienia status zlecenia na "zakończone"
+
+Alternatywne przepływy danych:
+ileś o tym, że coś poszło nie tak XD
+
+Specjalne wymagania: 
+Notatki:
+
+V.
+Nazwa: Obsługuj fakturę
+Aktorzy: Klient, Spedytor
+Krótki opis: Wystawienie faktury
+Warunki wstępne: zlecenie ma status "dostarczone"
+Warunki końcowe: wystawienie faktury
+
+Główny przepływ zdarzeń:
+1. System generuje fakturę i przesyła dalej XD
+
+Alternatywne przepływy danych:
+
+
+Specjalne wymagania:
+Notatki:
+
+VI.
+Nazwa: Zamknij zlecenie
+Aktorzy: Spedytor
+Krótki opis: Dopięcie zlecenia do końca
+Warunki wstępne: Info, że towar dostarczony
+Warunki końcowe: wystawienie faktury
+
+Główny przepływ zdarzeń:
+1. Spedytor wchodzi w zlecenie
+2. System pozwala XD
+3. Spedytor zmienia status na "dostarczone"
+4. System "are u sure"
+5. "yes, im sure"
+6. System zmienia status
+7. Generowanie faktury
+
+Alternatywne przepływy danych:
+że coś nie tak XD
+
+Specjalne wymagania:
+Notatki:
+
+VII.
+Nazwa: Twórz transport
+Aktorzy: Spedytor
+Krótki opis: Chodzi o to że będzie transport zlecenia XD
+Warunki wstępne: Zlecenie istnieje i ma odpowiedni status
+Warunki końcowe: Przesłanie informacji o trasie do przewoźnika
+
+Główny przepływ zdarzeń:
+1. Spedytor chce "twórz transport"
+2. System pozwala
+3. Spedytor zaznacza zlecenia
+4. System generuje najbardziej optymalną trasę
+5. System pyta czy git
+6. Spedytor akceptuje trasę
+7. System przesyła do przewoźnika jego trasę
+
+Alternatywne przepływy danych:
+coś na pewno
+
+Specjalne wymagania:
+Notatki:
+
+VIII.
+Nazwa: Realizuj transport
+Aktorzy: Przewoźnik drogowy
+Krótki opis: Przewoźnik realizuje transport dany przez spedytora
+Warunki wstępne: Istnieje ścieżka transportu w systemie
+Warunki końcowe: zrealizowany transport (status inny)
+
+Główny przepływ zdarzeń:
+1. Przewoźnik realizuje transport
+2. System pobiera lokalizację przewoźnika
+3. Przewoźnik klika w towar
+4. System mu pozwala
+5. Przewoźnik zmienia status na "odbiór"
+6. System zmienia na wybrany status
+
+Alternatywne przepływy danych:
+5a. Przewoźnik zmienia status na "dostarczenie"
+
+Specjalne wymagania:
+Notatki:
+
+IX.
+Nazwa: Monitoruj transport
+Aktorzy: Magazynier, Klient, Przewoźnik drogowy, Spedytor
+Krótki opis: Możliwość monitorowania stanu realizacji zleceń
+Warunki wstępne: Isnieje zlecenie o odpowiednim statusiue
+Warunki końcowe: udostępnienie informacji o lokalizacji i stanie transportu
+
+Główny przepływ zdarzeń:
+1. Magazynier zmienia informacje o stanie towaru
+2. System pobiera i przesyła dalej te informacje
+3. Klient wybiera zlecenie
+4. System pozwala mu wejść
+5. Klient chce sprawdzić
+6. System pozwala
+
+Alternatywne przepływy danych:
+1a. Przewoźnik drogowy zmienia informacje o stanie towaru
+3a. Spedytor wybiera zlecenie
+5a. Spedytor chce sprawdzić
+
+Specjalne wymagania:
+Notatki:
+
+X.
+Nazwa:
+Aktorzy:
+Krótki opis:
+Warunki wstępne:
+Warunki końcowe:
+
+Główny przepływ zdarzeń:
+
+Alternatywne przepływy danych:
+
+Specjalne wymagania:
+Notatki:
+
+XI.
+Nazwa:
+Aktorzy:
+Krótki opis:
+Warunki wstępne:
+Warunki końcowe:
+
+Główny przepływ zdarzeń:
+
+Alternatywne przepływy danych:
+
+Specjalne wymagania:
+Notatki:
