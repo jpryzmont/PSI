@@ -7,5 +7,11 @@ Biznesplan: (wydaje mi sie, ze jest lokalnie word ale dunno)
 Przypadki uzycia:
   1.podmienic na aktualny (sa lokalnie)
 
-OVERALL:
-1.wrzucic aktualne rzeczy (sa lokalnie)
+Diagram klas:
+  1.Rework (uwzglednic zmiany)
+
+Diagram obiektowy:
+  1.Rework (uwzglednic zmiany)
+
+Baza danych:
+  1.Potencjalnie, moze zostac bez wiekszych zmian (ale raczej rework mniejszy badz wiekszy)
