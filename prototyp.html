@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zintegrowane Panele UI - System Spedycyjny</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background-color: #f4f6f9; min-height: 100vh; }
+        .role-selector-bar { background-color: #212529; color: white; padding: 10px 0; border-bottom: 3px solid #0d6efd; }
+        .sidebar { background-color: white; min-height: calc(100vh - 62px); box-shadow: 2px 0 5px rgba(0,0,0,0.05); }
+        .nav-pills .nav-link { color: #495057; margin-bottom: 5px; }
+        .nav-pills .nav-link.active { background-color: #0d6efd; color: white; }
+        .main-content { padding: 30px; }
+        .card-custom { background: white; border: none; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); margin-bottom: 20px; }
+        .status-badge { font-size: 0.85rem; padding: 5px 10px; border-radius: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="role-selector-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <span class="fw-bold"><i class="bi bi-cpu-fill text-primary"></i> PROTOTYP SI SYSTEMU SPEDYCJI</span>
+        <div class="nav nav-pills" id="roleTab" role="tablist">
+            <button class="nav-link active btn-sm text-white me-2" id="panel-klient-tab" data-bs-toggle="tab" data-bs-target="#panel-klient" type="button" role="tab"><i class="bi bi-person"></i> Panel Klienta</button>
+            <button class="nav-link btn-sm text-white me-2" id="panel-spedytor-tab" data-bs-toggle="tab" data-bs-target="#panel-spedytor" type="button" role="tab"><i class="bi bi-headset"></i> Panel Spedytora</button>
+            <button class="nav-link btn-sm text-white me-2" id="panel-przewoznik-tab" data-bs-toggle="tab" data-bs-target="#panel-przewoznik" type="button" role="tab"><i class="bi bi-truck"></i> Przewoźnik</button>
+            <button class="nav-link btn-sm text-white me-2" id="panel-magazynier-tab" data-bs-toggle="tab" data-bs-target="#panel-magazynier" type="button" role="tab"><i class="bi bi-box-seam"></i> Magazynier</button>
+            <button class="nav-link btn-sm text-white" id="panel-wlasciciel-tab" data-bs-toggle="tab" data-bs-target="#panel-wlasciciel" type="button" role="tab"><i class="bi bi-shield-lock"></i> Właściciel/Admin</button>
+        </div>
+    </div>
+</div>
+
+<div class="tab-content" id="roleTabContent">
+
+    <div class="tab-pane fade show active" id="panel-klient" role="tabpanel">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 sidebar p-3 d-none d-md-block">
+                    <h6 class="text-muted px-3 text-uppercase">Menu Klienta</h6>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item"><a href="#" class="nav-link active"><i class="bi bi-speedometer2"></i> Pulpit główny</a></li>
+                        <li><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#modalNoweZapytanie"><i class="bi bi-plus-circle-fill text-success"></i> Nowe zlecenie</a></li>
+                        <li><a href="#" class="nav-link"><i class="bi bi-receipt"></i> Faktury i Płatności</a></li>
+                        <li><a href="#" class="nav-link"><i class="bi bi-geo-alt"></i> Śledzenie paczek</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-10 main-content">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Witaj, Jan Kowalski <span class="fs-6 text-muted">(Klient Kontraktowy)</span></h2>
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalNoweZapytanie"><i class="bi bi-plus-lg"></i> Złóż zapytanie o zlecenie</button>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-3"><div class="card card-custom p-3 text-center"><h3 class="text-primary">3</h3><span class="text-muted">W transporcie</span></div></div>
+                        <div class="col-md-3"><div class="card card-custom p-3 text-center"><h3 class="text-warning">1</h3><span class="text-muted">Oczekuje na wycenę</span></div></div>
+                        <div class="col-md-3"><div class="card card-custom p-3 text-center"><h3 class="text-success">Zafakturowano</h3><span class="text-muted">Status płatności</span></div></div>
+                    </div>
+
+                    <div class="card card-custom p-4">
+                        <h5 class="mb-3">Twoje aktualne zlecenia</h5>
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr><th>Nr Zlecenia</th><th>Trasa</th><th>Data załadunku</th><th>Koszt</th><th>Status</th><th>Akcje</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>ZLC/2026/05/112</td><td>Gdańsk → Warszawa</td><td>19.05.2026</td><td>1 200,00 zł</td><td><span class="badge bg-primary status-badge">W transporcie</span></td><td><button class="btn btn-sm btn-outline-secondary">Szczegóły</button></td></tr>
+                                <tr><td>ZLC/2026/05/115</td><td>Kraków → Wrocław</td><td>22.05.2026</td><td>-- zł</td><td><span class="badge bg-warning text-dark status-badge">Wycena w toku</span></td><td><button class="btn btn-sm btn-outline-primary" disabled>Czekaj na wycenę</button></td></tr>
+                                <tr><td>ZLC/2026/05/098</td><td>Poznań → Berlin</td><td>14.05.2026</td><td>3 450,00 zł</td><td><span class="badge bg-success status-badge">Dostarczono</span></td><td><button class="btn btn-sm btn-outline-success"><i class="bi bi-download"></i> Pobierz POD</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="panel-spedytor" role="tabpanel">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 sidebar p-3 d-none d-md-block">
+                    <h6 class="text-muted px-3 text-uppercase">Spedytor Panel</h6>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item"><a href="#" class="nav-link active"><i class="bi bi-grid"></i> Giełda i Zapytania</a></li>
+                        <li><a href="#" class="nav-link"><i class="bi bi-card-list"></i> Zarządzanie zleceniami</a></li>
+                        <li><a href="#" class="nav-link text-danger" data-bs-toggle="modal" data-bs-target="#modalProtokolSzkody"><i class="bi bi-exclamation-triangle-fill"></i> Obsługa szkód (1)</a></li>
+                        <li><a href="#" class="nav-link"><i class="bi bi-wallet2"></i> Rozliczenia końcowe</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-10 main-content">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Pulpit Operacyjny Spedytora</h2>
+                        <span class="badge bg-danger p-2"><i class="bi bi-bell-fill"></i> Nowe powiadomienie o szkodzie!</span>
+                    </div>
+
+                    <div class="card card-custom p-4 mb-4">
+                        <h5 class="text-warning mb-3"><i class="bi bi-hourglass-split"></i> Nowe zapytania ofertowe od Klientów (Do wyceny)</h5>
+                        <table class="table table-striped align-middle">
+                            <thead class="table-dark">
+                                <tr><th>ID zapytania</th><th>Klient</th><th>Trasa</th><th>Ładunek</th><th>Waga (kg)</th><th>Akcja</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ZAP/2026/889</td><td>Jan Kowalski</td><td>Kraków → Wrocław</td><td>Palety z elektroniką</td><td>1400 kg</td>
+                                    <td>
+                                        <div class="input-group input-group-sm" style="max-width: 250px;">
+                                            <input type="number" class="form-control" placeholder="Wpisz cenę netto">
+                                            <button class="btn btn-primary" type="button">Wyślij wycenę</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card card-custom p-4">
+                        <h5 class="mb-3">Zarządzanie aktywnymi zleceniami i Planowanie transportu</h5>
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr><th>Zlecenie</th><th>Klient</th><th>Trasa</th><th>Przewoźnik przypisany</th><th>Planowanie / Status</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ZLC/2026/05/112</td><td>Jan Kowalski</td><td>Gdańsk → Warszawa</td><td>Trans-Pol Sp. z o.o.</td>
+                                    <td><span class="badge bg-primary">W trasie (Monitorowane)</span></td>
+                                </tr>
+                                <tr>
+                                    <td>ZLC/2026/05/118</td><td>Firma ABC</td><td>Łódź → Szczecin</td><td><span class="text-danger fw-bold">BRAK</span></td>
+                                    <td>
+                                        <select class="form-select form-select-sm d-inline-block w-auto me-2">
+                                            <option>Wybierz wolnego przewoźnika...</option>
+                                            <option>Przewoźnik Nowak (Chłodnia dostępna)</option>
+                                            <option>DHL Heavy Freight</option>
+                                        </select>
+                                        <button class="btn btn-sm btn-success">Zleć transport</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="panel-przewoznik" role="tabpanel">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 sidebar p-3 d-none d-md-block">
+                    <h6 class="text-muted px-3 text-uppercase">Kierowca / Przewoźnik</h6>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item"><a href="#" class="nav-link active"><i class="bi bi-map"></i> Moje Trasy</a></li>
+                        <li><a href="#" class="nav-link"><i class="bi bi-cloud-upload"></i> Wgraj dokument POD</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-10 main-content">
+                    <h2>Panel Przewoźnika Drogowego</h2>
+                    <p class="text-muted">Widok zoptymalizowany pod urządzenia mobilne kierowców.</p>
+
+                    <div class="card card-custom p-4">
+                        <h5 class="mb-3">Przypisane zadania przewozowe</h5>
+                        <div class="list-group">
+                            <div class="list-group-item p-3 card mb-2">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1 text-primary">Trasa: Gdańsk → Warszawa (ZLC/2026/05/112)</h5>
+                                    <small class="text-muted">Termin: Dziś</small>
+                                </div>
+                                <p class="mb-1"><strong>Ładunek:</strong> Kontener 20ft, Elektronika zabezpieczona. Wagary: 14 ton.</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-info text-white me-2"><i class="bi bi-geo-alt-fill"></i> Aktualizuj lokalizację GPS</button>
+                                    <button class="btn btn-sm btn-success" data-bs-toggle="collapse" data-bs-target="#uploadZone"><i class="bi bi-check-circle"></i> Dostarczono (Wgraj POD)</button>
+                                </div>
+                                
+                                <div class="collapse mt-3" id="uploadZone">
+                                    <div class="card card-body bg-light">
+                                        <label class="form-label fw-bold">Zrób zdjęcie podpisanego listu CMR / POD i wgraj do systemu:</label>
+                                        <input type="file" class="form-control mb-2">
+                                        <button class="btn btn-primary btn-sm w-100">Potwierdź dostawę i prześlij dokument</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="panel-magazynier" role="tabpanel">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 sidebar p-3 d-none d-md-block">
+                    <h6 class="text-muted px-3 text-uppercase">Obsługa Magazynu</h6>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item"><a href="#" class="nav-link active"><i class="bi bi-arrow-down-up"></i> Przyjęcia / Wydania</a></li>
+                        <li><a href="#" class="nav-link"><i class="bi bi-building"></i> Stan Ramp i Magazynu</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-10 main-content">
+                    <h2>Panel Magazyniera (Rampa Główna)</h2>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card card-custom p-4 bg-success text-white">
+                                <h5>Rampa 1 - Wolna</h5>
+                                <p class="m-0">Oczekuje na pojazd: Trans-Pol (ZLC/2026/05/112)</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card card-custom p-4 bg-secondary text-white">
+                                <h5>Pojemność magazynu składowego</h5>
+                                <div class="progress mt-2" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-warning text-dark" style="width: 75%">75% zajętości</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-custom p-4">
+                        <h5 class="mb-3">Dzisiejszy harmonogram Ruchu Towarów</h5>
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr><th>Zlecenie</th><th>Typ operacji</th><th>Towar</th><th>Liczba jednostek</th><th>Status operacji</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ZLC/2026/05/112</td><td><span class="text-danger fw-bold">WYDANIE (Załadunek)</span></td><td>Elektronika</td><td>24 palety</td>
+                                    <td><button class="btn btn-sm btn-primary">Potwierdź pełny załadunek towaru</button></td>
+                                </tr>
+                                <tr>
+                                    <td>ZLC/2026/05/090</td><td><span class="text-success fw-bold">PRZYJĘCIE (Rozładunek)</span></td><td>Materiały budowlane</td><td>12 palet</td>
+                                    <td><span class="badge bg-success">Zakończono i sprawdzono</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="panel-wlasciciel" role="tabpanel">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 sidebar p-3 d-none d-md-block">
+                    <h6 class="text-muted px-3 text-uppercase">Administracja Zarządcza</h6>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item"><a href="#" class="nav-link active"><i class="bi bi-graph-up-arrow"></i> Raporty i Statystyki</a></li>
+                        <li><a href="#" class="nav-link"><i class="bi bi-people"></i> Kontrakty Klientów</a></li>
+                        <li><a href="#" class="nav-link"><i class="bi bi-sliders"></i> Konfiguracja bazy magazynów</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-10 main-content">
+                    <h2>Panel Zarządczy Właściciela Firmy</h2>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card card-custom p-4 bg-primary text-white">
+                                <h6>Miesięczny Przychód Brutto</h6>
+                                <h3>142 500,00 zł</h3>
+                                <small><i class="bi bi-arrow-up"></i> +12% względem ubiegłego miesiąca</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-custom p-4 bg-dark text-white">
+                                <h6>Liczba obsłużonych zleceń (Maj)</h6>
+                                <h3>342 zlecenia</h3>
+                                <small>Skuteczność terminowa: 98.4%</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-custom p-4 bg-danger text-white">
+                                <h6>Współczynnik Szkód i Reklamacji</h6>
+                                <h3>0.29%</h3>
+                                <small>Cel biznesowy: poniżej 0.5%</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-custom p-4">
+                        <h5>Zarządzanie Kluczowymi Kontraktami i Limitami Kupieckimi</h5>
+                        <table class="table table-hover align-middle mt-3">
+                            <thead class="table-light">
+                                <tr><th>Nazwa Klienta</th><th>NIP</th><th>Ustalona stawka/rabat</th><th>Limit kupiecki (faktura terminowa)</th><th>Status umowy</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Firma Transportowo-Handlowa XYZ</td><td>9982312231</td><td>Marża stała -5%</td><td>50 000,00 zł</td><td><span class="badge bg-success">Aktywna (Kontrakt)</span></td></tr>
+                                <tr><td>Global Logistics s.a.</td><td>5210983221</td><td>Stawki wg cennika A</td><td>120 000,00 zł</td><td><span class="badge bg-success">Aktywna (Kontrakt)</span></td></tr>
+                                <tr><td>Januszex sp.j.</td><td>1129983211</td><td>Brak (Klient detaliczny)</td><td>0,00 zł (Tylko przedpłata)</td><td><span class="badge bg-secondary">Brak kontraktu</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="modalNoweZapytanie" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">🚚 Nowe zapytanie o transport towaru</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-shadow="none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form>
+                    <h6 class="text-primary">1. Informacje o ładunku</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-5">
+                            <label class="form-label">Rodzaj towaru</label>
+                            <input type="text" class="form-control" placeholder="np. Palety EUR, Elektronika">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Szacowana waga (kg)</label>
+                            <input type="number" class="form-control" placeholder="0">
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end mb-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="chlodniaMod">
+                                <label class="form-check-label" for="chlodniaMod">Wymagana chłodnia</label>
+                            </div>
+                        </div>
+                    </div>
+                    <h6 class="text-primary mt-4">2. Trasa i termin</h6>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Miejsce załadunku</label>
+                            <input type="text" class="form-control" placeholder="Miasto, Kod pocztowy">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Miejsce rozładunku</label>
+                            <input type="text" class="form-control" placeholder="Miasto, Kod pocztowy">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Preferowana data załadunku</label>
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+                    <h6 class="text-primary mt-4">3. Podsumowanie</h6>
+                    <div class="mb-3">
+                        <label class="form-label">Dodatkowe uwagi dla spedytora</label>
+                        <textarea class="form-control" rows="2" placeholder="Opcjonalne informacje..."></textarea>
+                    </div>
+                    <div class="modal-footer px-0 pb-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="alert('Zapytanie zostało przesłane do Spedytora w celu wyceny!')">Wyślij zapytanie do wyceny</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalProtokolSzkody" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">📝 Rejestracja Protokołu Szkody (Obsługa wyłączna: Spedytor)</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Numer powiązanego zlecenia</label>
+                            <input type="text" class="form-control" value="ZLC/2026/05/112" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Zgłaszający Klient</label>
+                            <input type="text" class="form-control" value="Jan Kowalski" disabled>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Data rejestracji szkody</label>
+                            <input type="date" class="form-control" value="2026-05-17">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Typ zidentyfikowanego uszkodzenia</label>
+                            <select class="form-select">
+                                <option value="1" selected>Uszkodzenie mechaniczne (paleta pęknięta)</option>
+                                <option value="2">Zalanie / Zawilgocenie</option>
+                                <option value="3">Ubytek w towarze / Kradzież</option>
+                                <option value="4">Inne</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Szczegółowy opis szkody i orzeczenie spedytora</label>
+                        <textarea class="form-control" rows="4">Kierowca zgłosił uszkodzenie opakowań zewnętrznych podczas rozładunku wózkowego po stronie odbiorcy. Wymagany protokół ubezpieczeniowy.</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Załączona dokumentacja fotograficzna (POD/Zdjęcia z rampy)</label>
+                        <div class="alert alert-secondary p-2 d-flex justify-content-between align-items-center">
+                            <span><i class="bi bi-image text-primary"></i> fotka_szkody_rampa1.jpg (1.2 MB)</span>
+                            <button type="button" class="btn btn-sm btn-outline-danger">Usuń</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer px-0 pb-0">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij bez zmian</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="alert('Protokół został zapisany w bazie danych pod ID obiektu szkody, a status zlecenia zaktualizowany!')">Zatwierdź i wyślij do ubezpieczyciela</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
