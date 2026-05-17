@@ -1,0 +1,171 @@
+UC1. Obsługuj protokół szkody
+Aktor inicjujący: Spedytor   
+
+Główny scenariusz:   
+1. Spedytor wybiera w systemie zlecenie, w którym wystąpiła szkoda.
+2. System wyświetla formularz protokołu szkody.
+3. Spedytor wprowadza szczegóły uszkodzenia i załącza dokumentację zdjęciową.
+4. System weryfikuje poprawność wprowadzonych danych.
+5. System zapisuje protokół szkody i zmienia status zlecenia.
+
+Rozszerzenia:   
+4.A Spedytor nie wypełnił wszystkich wymaganych pól.
+4.A.1 System informuje o brakach i prosi o uzupełnienie danych (powrót do kroku 3).
+
+
+UC2. Śledź realizację zlecenia
+Aktorzy inicjujący: Klient, Magazynier, Przewoźnik drogowy   
+
+Główny scenariusz:   
+1. Klient, Magazynier lub Przewoźnik drogowy wprowadza numer zlecenia w module wyszukiwania.
+2. System weryfikuje uprawnienia aktora do podglądu danego zlecenia.
+3. System pobiera aktualne dane o lokalizacji i statusie transportu.
+4. System wyświetla szczegóły realizacji zlecenia.
+
+Rozszerzenia:   
+2.A Aktor nie ma uprawnień do przeglądania podanego zlecenia.
+2.A.1 System wyświetla komunikat o braku dostępu i przerywa akcję.
+3.A W bazie nie ma zlecenia o podanym numerze.
+3.A.1 System wyświetla komunikat błędu z prośbą o ponowne wpisanie numeru.
+
+
+UC3. Planuj transport
+Atrybuty:
+Aktor inicjujący: Spedytor   
+
+Główny scenariusz:   
+1. Spedytor wybiera opłacone zlecenie z głównej listy.
+2. System prezentuje zestawienie dostępnych przewoźników drogowych.
+3. Spedytor przypisuje wybranego Przewoźnika drogowego do zlecenia.
+4. System generuje dokumenty i wysyła powiadomienie do przewoźnika.
+5. System zmienia status zlecenia na "W transporcie".
+
+Rozszerzenia:   
+2.A Brak dostępnych przewoźników w wymaganym terminie.
+2.A.1 System wyświetla ostrzeżenie o braku wolnych pojazdów i sugeruje zmianę daty.
+
+
+UC4. Złóż zapytanie o zlecenie
+Aktor inicjujący: Klient
+
+Główny scenariusz:
+1. Klient wybiera opcję dodania nowego zapytania.
+2. Klient wprowadza parametry ładunku, adresy i terminy.
+3. System weryfikuje kompletność danych.
+4. System zapisuje zapytanie w bazie i powiadamia Spedytora.
+5. System wymusza wykonanie przypadku użycia "Wyceń zlecenie"
+
+
+UC5. Rozpatrz wycenę
+Aktor inicjujący: Klient
+
+Główny scenariusz:
+1. Klient otwiera powiadomienie o wycenie przygotowanej przez Spedytora.
+2. System wyświetla szczegóły wyceny (koszty, proponowany termin).
+3. Klient akceptuje wycenę.
+4. System zmienia status zapytania na pełnoprawne zlecenie.
+
+Rozszerzenia:
+3.A Klient odrzuca wycenę.
+3.A.1 System prosi o podanie powodu odrzucenia, zmienia status na "Odrzucone" i zamyka proces.
+
+UC5. Anuluj zlecenie
+Aktor inicjujący: Klient
+
+Główny scenariusz:
+1. Klient wybiera aktywne zlecenie i klika "Anuluj".
+2. System sprawdza czas pozostały do planowanego załadunku. 
+3. System anuluje zlecenie i powiadamia Spedytora oraz Przewoźnika.
+
+Rozszerzenia:
+2.A Anulowanie następuje zbyt późno.
+2.A.1 System rozszerza proces o przypadek użycia "Nalicz karę", doliczając opłatę manipulacyjną.  
+
+UC6. Opłać zlecenie
+
+Aktor inicjujący: Klient
+
+Główny scenariusz: Przypadek ten ma charakter ogólny (bazowy) i jest realizowany przez szczegółowe przypadki użycia na zasadzie uogólnienia:  
+
+UC6.1 Dokonaj przedpłaty: Inicjowane przez mniejszych klientów lub jednorazowych, obsługiwane przez natychmiastową bramkę płatniczą.
+
+UC6.2 Opłać fakturę terminową: Inicjowane przez klientów kontraktowych, system księguje przelew po wystawieniu faktury zbiorczej z odroczonym terminem.
+
+
+UC7. Obsługuj przyjęcia i wydania towaru
+
+Aktorzy inicjujący: Magazynier, Przewoźnik drogowy
+
+Główny scenariusz:
+1. Przewoźnik drogowy zgłasza się na odpowiednią rampę magazynową.
+2. Magazynier skanuje dokumenty Przewoźnika.
+3. System weryfikuje zgodność ze zleceniem.
+4. Magazynier ładuje/rozładowuje towar i potwierdza operację w systemie.
+5. System aktualizuje stany magazynowe i status transportu.
+
+Rozszerzenia:
+4.A Zidentyfikowano uszkodzenie ładunku.
+4.A.1 Wykonywany jest krok rozszerzający, w którym powiadomiony Spedytor realizuje opisywany wcześniej przypadek "Obsługuj protokół szkody".
+
+
+UC8. Wgraj dok. przewozowe (POD)
+Aktor inicjujący: Przewoźnik drogowy
+
+Główny scenariusz:
+1. Przewoźnik wykonuje zdjęcie lub skan podpisanego listu przewozowego (Proof of Delivery).
+2. Przewoźnik loguje się i dodaje plik do zrealizowanego zlecenia.
+3. System przetwarza plik i dołącza go do dokumentacji zlecenia.
+
+
+UC9. Wyceń zlecenie
+Aktor inicjujący: Spedytor.  
+
+Główny scenariusz:
+1. Spedytor otwiera nowe zapytanie o zlecenie.
+2. Spedytor kalkuluje koszty na podstawie giełd transportowych i marży.
+3. Spedytor wprowadza proponowaną kwotę do systemu.
+4. System wysyła wycenę do akceptacji Klienta (przejście do UC4).
+
+
+UC10. Zarządzaj zleceniami
+Aktor inicjujący: Spedytor
+Opis: Jest to przypadek zarządzający (CRUD). Obejmuje on wprowadzanie nowych zleceń ręcznie, wyszukiwanie w bazie, modyfikowanie parametrów trasy/ładunku oraz ewentualne archiwizowanie/usuwanie rekordów.
+
+UC11. Rozlicz zlecenie
+Aktor inicjujący: Spedytor
+
+Główny scenariusz:
+1. Spedytor wybiera zrealizowane zlecenie do rozliczenia.
+2. System wymusza weryfikację dokumentacji (załączonego POD) oraz płatności.
+3. Spedytor zatwierdza kwotę dla przewoźnika.
+4. System generuje notę księgową i zamyka proces.
+
+
+UC12. Zleć transport
+Aktor inicjujący: Spedytor
+
+Główny scenariusz:
+1. Spedytor wyszukuje wolnego przewoźnika na zewnętrznej giełdzie lub we własnej bazie.
+2. Spedytor wystawia oficjalne zlecenie transportowe i przesyła je przewoźnikowi.
+3. Przewoźnik potwierdza przyjęcie (często poza głównym systemem, mailowo).
+4. Spedytor zaznacza w systemie transport jako zlecony podwykonawcy.
+
+
+UC13. Zarządzaj kluczowymi klientami i kontraktami
+Aktor inicjujący: Właściciel
+
+Opis: Przypadek typu CRUD. Właściciel może dodawać nowe firmy do statusu klientów kontraktowych, ustalać ich indywidualne stawki rabatowe, limity kupieckie oraz terminy płatności faktur zbiorczych.  
+
+UC14. Zarządzaj bazą magazynów
+Aktor inicjujący: Właściciel
+
+Opis: Przypadek typu CRUD. Właściciel dodaje nowe lokalizacje magazynowe, edytuje ich godziny pracy i przypisuje magazynierów do określonych obiektów.
+
+UC15. Generuj raporty i statystyki
+Aktor inicjujący: Właściciel
+
+Główny scenariusz:
+1. Właściciel otwiera moduł analityczny.
+2. Właściciel ustala zakres czasowy oraz filtry (np. rentowność wg klientów lub wolumeny przewoźników).
+3. System agreguje dane z bazy.
+4. System wyświetla interaktywne wykresy i pozwala wyeksportować plik XLS/PDF.
