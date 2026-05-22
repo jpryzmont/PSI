@@ -69,7 +69,7 @@ Rozszerzenia:
 3.A Klient odrzuca wycenę.
 3.A.1 System prosi o podanie powodu odrzucenia, zmienia status na "Odrzucone" i zamyka proces.
 
-UC5. Anuluj zlecenie
+UC6. Anuluj zlecenie
 Aktor inicjujący: Klient
 
 Główny scenariusz:
@@ -81,7 +81,7 @@ Rozszerzenia:
 2.A Anulowanie następuje zbyt późno.
 2.A.1 System rozszerza proces o przypadek użycia "Nalicz karę", doliczając opłatę manipulacyjną.  
 
-UC6. Opłać zlecenie
+UC7. Opłać zlecenie
 
 Aktor inicjujący: Klient
 
@@ -92,7 +92,7 @@ UC6.1 Dokonaj przedpłaty: Inicjowane przez mniejszych klientów lub jednorazowy
 UC6.2 Opłać fakturę terminową: Inicjowane przez klientów kontraktowych, system księguje przelew po wystawieniu faktury zbiorczej z odroczonym terminem.
 
 
-UC7. Obsługuj przyjęcia i wydania towaru
+UC8. Obsługuj przyjęcia i wydania towaru
 
 Aktorzy inicjujący: Magazynier, Przewoźnik drogowy
 
@@ -108,7 +108,7 @@ Rozszerzenia:
 4.A.1 Wykonywany jest krok rozszerzający, w którym powiadomiony Spedytor realizuje opisywany wcześniej przypadek "Obsługuj protokół szkody".
 
 
-UC8. Wgraj dok. przewozowe (POD)
+UC9. Wgraj dok. przewozowe (POD)
 Aktor inicjujący: Przewoźnik drogowy
 
 Główny scenariusz:
@@ -117,7 +117,7 @@ Główny scenariusz:
 3. System przetwarza plik i dołącza go do dokumentacji zlecenia.
 
 
-UC9. Wyceń zlecenie
+UC10. Wyceń zlecenie
 Aktor inicjujący: Spedytor.  
 
 Główny scenariusz:
@@ -127,11 +127,11 @@ Główny scenariusz:
 4. System wysyła wycenę do akceptacji Klienta (przejście do UC4).
 
 
-UC10. Zarządzaj zleceniami
+UC11. Zarządzaj zleceniami
 Aktor inicjujący: Spedytor
 Opis: Jest to przypadek zarządzający (CRUD). Obejmuje on wprowadzanie nowych zleceń ręcznie, wyszukiwanie w bazie, modyfikowanie parametrów trasy/ładunku oraz ewentualne archiwizowanie/usuwanie rekordów.
 
-UC11. Rozlicz zlecenie
+UC12. Rozlicz zlecenie
 Aktor inicjujący: Spedytor
 
 Główny scenariusz:
@@ -141,7 +141,7 @@ Główny scenariusz:
 4. System generuje notę księgową i zamyka proces.
 
 
-UC12. Zleć transport
+UC13. Zleć transport
 Aktor inicjujący: Spedytor
 
 Główny scenariusz:
@@ -151,17 +151,17 @@ Główny scenariusz:
 4. Spedytor zaznacza w systemie transport jako zlecony podwykonawcy.
 
 
-UC13. Zarządzaj kluczowymi klientami i kontraktami
+UC14. Zarządzaj kluczowymi klientami i kontraktami
 Aktor inicjujący: Właściciel
 
 Opis: Przypadek typu CRUD. Właściciel może dodawać nowe firmy do statusu klientów kontraktowych, ustalać ich indywidualne stawki rabatowe, limity kupieckie oraz terminy płatności faktur zbiorczych.  
 
-UC14. Zarządzaj bazą magazynów
+UC15. Zarządzaj bazą magazynów
 Aktor inicjujący: Właściciel
 
 Opis: Przypadek typu CRUD. Właściciel dodaje nowe lokalizacje magazynowe, edytuje ich godziny pracy i przypisuje magazynierów do określonych obiektów.
 
-UC15. Generuj raporty i statystyki
+UC16. Generuj raporty i statystyki
 Aktor inicjujący: Właściciel
 
 Główny scenariusz:
